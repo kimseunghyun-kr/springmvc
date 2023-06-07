@@ -1,14 +1,12 @@
 package hello.springmvc.basic.request;
 
 
+import hello.springmvc.basic.HelloData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Map;
@@ -51,7 +49,7 @@ public class RequestParamController {
     @RequestMapping("/request-param-v4")
     public String requestParamV4(
             String username, //spring will auto search if parameters are
-            // simple types like String int Integer. (quite ambiguous tbh)
+            // primitive types like String int Integer. (quite ambiguous tbh)
             int age){
         log.info("username = {}, age = {}", username, age);
         return "ok";
@@ -99,13 +97,56 @@ public class RequestParamController {
         return "ok";
     }
 
+//    @ResponseBody
+//    @RequestMapping("/model-attribute-v1")
+//    public String modelAttributeV1(@RequestParam String username,
+//                                   @RequestParam int age) {
+//
+//        HelloData helloData = new HelloData();
+//        helloData.setUsername(username);
+//        helloData.setAge(age);
+//        log.info("username={}, age={}", helloData.getUsername(),
+//                helloData.getAge());
+//        log.info("helloData = {}" , helloData);
+//        return "ok";
+//    }
+
+
+    //above is simplified to below
+
+    /*
+    SpringMVC runs the following upon @ModelAttribute
+    1. it initialises a HelloData Object
+    2. based on the name of the request parameter, it finds the corresponding
+       property within the HelloData Object
+    3. It then calls the setter() of the object and binds the value of the parameter
+       to the given property
+    4. should such a binding not exist, it will create a BindException
+     */
     @ResponseBody
     @RequestMapping("/model-attribute-v1")
-    public String modelAttributeV1(@RequestParam Map<String, Object> paramMap) {
-        log.info("username={}, age={}", paramMap.get("username"),
-                paramMap.get("age"));
+    public String modelAttributeV1(@ModelAttribute HelloData helloData) {
+        log.info("username={}, age={}", helloData.getUsername(),
+                helloData.getAge());
         return "ok";
     }
+
+    /*
+    both @RequestParam and @ModelAttribute can be not explicitly stated
+    Spring runs @RequestParam for primitives (classes) and classes that'
+    are explicitly registered on ArgumentResolver
+    and runs @ModelAttribute for other Object Data types
+     */
+
+    @ResponseBody
+    @RequestMapping("/model-attribute-v2")
+    public String modelAttributeV2(HelloData helloData) {
+        log.info("username={}, age={}", helloData.getUsername(),
+                helloData.getAge());
+        return "ok";
+    }
+
+
 
 
 
