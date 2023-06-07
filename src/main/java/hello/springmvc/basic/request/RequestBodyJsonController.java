@@ -34,6 +34,10 @@ public class RequestBodyJsonController {
         response.getWriter().write("ok");
     }
 
+//    responsebody does
+//    ServletInputStream inputStream = request.getInputStream();
+//        String messageBody = StreamUtils.copyToString(inputStream,
+//                StandardCharsets.UTF_8);
     @ResponseBody
     @PostMapping("/request-body-json-v2")
     public String requestBodyJsonV2(@RequestBody String messageBody) throws IOException {
@@ -47,7 +51,7 @@ public class RequestBodyJsonController {
     @PostMapping("/request-body-json-v3")
 /**
  * @RequestBody 생략 불가능(@ModelAttribute 가 적용되어 버림) -> http request parameter를 처리하게 됨
- * HttpMessageConverter 사용 -> MappingJackson2HttpMessageConverter (contenttype: application/json)
+ * HttpMessageConverter 사용 -> MappingJackson2HttpMessageConverter (content/type: application/json)
  *
  */
     public String requestBodyJsonV3(@RequestBody HelloData helloData) throws IOException {
@@ -55,6 +59,7 @@ public class RequestBodyJsonController {
         return "ok";
     }
 
+//    httpEntity<T> ver
     @ResponseBody
     @PostMapping("/request-body-json-v4")
     public String requestBodyJsonV4(HttpEntity<HelloData> httpEntity) throws IOException {
@@ -63,6 +68,7 @@ public class RequestBodyJsonController {
         return "ok";
     }
 
+//    v3 + how the ResponseBody allows the HttpMessageConverter to work backwards
     @ResponseBody
     @PostMapping("/request-body-json-v5")
     public HelloData requestBodyJsonV5(@RequestBody HelloData data) throws IOException {
