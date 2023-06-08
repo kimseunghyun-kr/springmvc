@@ -7,10 +7,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -61,6 +58,20 @@ public class ResponseBodyController {
         helloData.setAge(20);
         return helloData;
     }
+
+
+//    all the secret is at REQUESTMAPPINGHANDLERADAPTER
+//    AND HANDLERMETHODARGUMENTRESOLVER (ARGUMENTRESOLVER)
+//    AND HANDLERMETHODRETURNVALUEHANDLER (RETURNVALUEHANDLER)
+//    these argumentResolver and RETURNVALUEHANDLER uses the HTTPMESSAGECONVERTERS
+//    CTRL + ALT + SHIFT + U to see class relationship diagram
+//    CTRL + N TO FIND OUT MORE
+
+
+//    As the above interfaces are provided, one can choose to expand on the features that SPRING provides
+//    to do so, one can simply create a cleass that inherits WEBMVCCONFIGURER and register it into a bean
+//    or a @Component, @Configuration
+
 
 
 }
